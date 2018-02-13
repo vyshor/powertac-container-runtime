@@ -17,7 +17,7 @@ START_DATE = "20090101"  # YYYYMMDD of earliest report
 END_DATE = "20111231"  # YYYYMMDD of last report
 
 
-def download_files(urls) -> List[List[str]]:
+def download_files(urls=weather_file_urls) -> List[str]:
     """Downloads the weather files defined and extracts them so that we have a list of value(lists)"""
     data = []
     for url in urls:
@@ -50,7 +50,7 @@ def get_indexes(line):
     _INDEXES[5] = parts.index("N")  # cover
 
 
-def convert_weather_file(weather_data: str) -> List[List[str]]:
+def convert_weather_file(weather_data: str, start_date=START_DATE, end_date=END_DATE) -> List[List[str]]:
     lines = weather_data.split("\n")
     """converts the weather_data file content into a list of list of strings so we can work with it. It's the base data 
     that all other data is derived from 
@@ -86,7 +86,7 @@ def convert_weather_file(weather_data: str) -> List[List[str]]:
         temp = parts[_INDEXES[4]]  # 0.1 deg Celsius
         cover = parts[_INDEXES[5]] or "0"  # 0-9
 
-        if date < START_DATE or date > END_DATE:
+        if date < start_date or date > end_date:
             continue
 
         hour = int(hour) - 1

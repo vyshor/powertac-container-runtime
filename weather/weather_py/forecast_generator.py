@@ -8,6 +8,9 @@ START_DATE = datetime.strptime("20090101", "%Y%m%d")
 END_DATE = datetime.strptime("20111231", "%Y%m%d")
 days = START_DATE - END_DATE
 
+# FORECAST_SENSIBILITY = [2, 1, 10, 0.1]
+FORECAST_SENSIBILITY = [2, 1, 10, 0.1]
+
 DELTAS = [
     0.5162049085865681,
     0.5001617542505696,
@@ -36,26 +39,38 @@ DELTAS = [
 ]
 
 
+def fill_to25_points(weather_rest: np.ndarray, points_left):
+    """filling up an array of weather points with a repetition of the last item to allow for forecasts "past the end"
+    with the simple rule of "will stay the same"
+    """
+    data = []
+    data.extend(weather_rest)
+    for i in range(points_left):
+        data.append(weather_rest[-1])
+    return np.array(data)
+
+
 def make_forecasts(weather_data: np.ndarray) -> np.ndarray:
     """ We need 1094 days, with 24 forecasts for each hour slot. Each 24h forecasts per timeslot are dependent on the
     following 24h of weather measurements and some iteratively calculated error deviation that is based on the DELTAS
+    :param weather_data: a list of raw weather data points. For each point, a 24 item long array of forecasts for the future will be created
     """
 
     # our array of forecasts. This is a --- days * 24h X 24h X forecast_tuple data structure
-    all_fc = np.empty((len(weather_data) * 24, 24), dtype=object)
+    all_fc = np.empty((len(weather_data), 24), dtype=object)
 
     for i in range(len(weather_data)):
         # skipping last day of forecasting for now TODO improve
-        if i+25 > len(weather_data):
+        if i > len(weather_data):
             continue
-
-        all_fc[i] = make_24h_forecasts(weather_data[i:i+25])
+        if i+25 > len(weather_data):
+            points_left = i+25-len(weather_data)
+            d = fill_to25_points(weather_data[i:], points_left)
+            all_fc[i] = make_24h_forecasts(d)
+        else:
+            all_fc[i] = make_24h_forecasts(weather_data[i:i+25])
     return all_fc
 
-
-
-# take each of the 24h and multiply it with the calculated TAUs
-# pass back the forecasts for
 
 def make_24h_forecasts(weather: np.ndarray) -> List[List]:
     """
@@ -81,25 +96,29 @@ def make_24h_forecasts(weather: np.ndarray) -> List[List]:
     :param weather: a 25 item long array of weather data
     :return:
     """
-    forecasts = np.zeros((4, 24))
+    forecast_length = len(weather)-1
+
+    forecasts = np.zeros((4, forecast_length))
     fc_list = []
-    taus = np.zeros((4, 24))
-    for i in range(24):
+    taus = np.zeros((4, forecast_length))
+    for i in range(forecast_length):
         # generating [4,24] matrix of deviations
-        if i == 0:
-            taus[:, i] = np.zeros(4) + np.random.normal(0, DELTAS[i], 4)
-        else:
-            taus[:, i] = taus[:, i - 1] + np.random.normal(0, DELTAS[i], 4)
+        fill_taus(i, taus)
 
-
-        forecasts[:4, i] = weather[i + 1, 2:] * [2, 1, 10, 0.1] * taus[:, i]    # filling forecasts matrix
+        forecasts[:4, i] = weather[i + 1, 2:] + FORECAST_SENSIBILITY * + taus[:, i]    # filling forecasts matrix
 
         forecasts[1, i]  = max(min(forecasts[1, i], 19), 0)                     # speed correction
         forecasts[2, i]  = int((forecasts[2, i]) % 360)                         # wind direction correction
         forecasts[3, i]  = max(min(forecasts[3, i], 1), 0)                      # cloud cover correction
         fc_list.append(merge_forecast_data(forecasts[:, i], weather[i + 1, 0], weather[0, 0]))
-
     return fc_list
+
+
+def fill_taus(i, taus):
+    if i == 0:
+        taus[:, i] = np.zeros(4) + np.random.normal(0, DELTAS[i], 4)
+    else:
+        taus[:, i] = taus[:, i - 1] + np.random.normal(0, DELTAS[i], 4)
 
 
 def merge_forecast_data(forecasts, date, origin):

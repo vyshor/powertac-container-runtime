@@ -4,6 +4,8 @@
 
 # Jupyter Notebook
 .ipynb_checkpoints
-
 .idea/
 __pycache__
+
+# generated file by weather_py reimplementation (to be moved)
+weather/weather_py/weather.xml
