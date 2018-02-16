@@ -7,5 +7,8 @@
 .idea/
 __pycache__
 
-# generated file by weather_py reimplementation (to be moved)
-weather/weather_py/weather.xml
+# generated file by weather_py reimplementation
+weather.xml
+
+#ignoring .idea
+*.iml
