@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Service
+# exposes the gRPC endpoint of our modified Java client to the cluster / world
+metadata:
+  name: powertac-unit
+spec:
+  selector:
+    app: powertac-unit
+  ports:
+  - protocol: TCP
+    port: 3001
+    targetPort: 3001
