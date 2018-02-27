@@ -1,1 +1,1 @@
-java -jar /powertac/sample-broker/target/python-broker-proxy-1.5.0-SNAPSHOT.jar
+java -jar /powertac/broker-adapter/target/broker-adapter.jar

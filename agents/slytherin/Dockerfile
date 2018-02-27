@@ -9,7 +9,7 @@ RUN apk add --no-cache git maven
 WORKDIR /powertac
 
 #download the client
-RUN git clone -b python https://github.com/pascalwhoop/sample-broker
+RUN git clone -b socket-grpc https://github.com/pascalwhoop/broker-adapter
 
 #copy config and start the client
 WORKDIR /powertac/sample-broker
@@ -18,5 +18,6 @@ RUN ls && mvn clean package
 
 COPY broker.properties ./
 COPY init.sh ./
+EXPOSE 1234
 
 CMD ./init.sh
