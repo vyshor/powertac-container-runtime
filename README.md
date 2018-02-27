@@ -1,15 +1,21 @@
 # powerTAC Dockerized 4 Google Cloud Kubernetes
 
 
-This package can run the powerTAC server and a selected number of agents in a Kubernetes Cluster on the Google Cloud. Setup is minimal, dependencies reduce down to Docker and the whole thing is scalable as it should be to run multiple simulations in parallel.
+This package can run the powerTAC server and a selected number of agents in a Kubernetes Cluster. 
+
+
 
 **What is Kubernetes? What is a cluster?** [link](https://cloud.google.com/kubernetes-engine/docs/concepts/cluster-architecture)
 > In Kubernetes Engine, a container cluster consists of at least one cluster master and multiple worker machines called nodes. These master and node machines run the Kubernetes cluster orchestration system.
 > A container cluster is the foundation of Kubernetes Engine: the Kubernetes objects that represent your containerized applications all run on top of a cluster.
 
-## Dependencies
+## Structure
 
-- Docker
+There are a few components that let the whole thing play out
+- permanent storage, instantiated through provider (can be AWS, GCE, local)
+- DNS resolver to let pods find each other
+- services: to expose the GRPC endpoint that hooks into the powertac environment
+
 
 ## Installation
 First, follow [these quickstart steps](https://cloud.google.com/kubernetes-engine/docs/quickstart) to receive an API key and enable billing.
@@ -38,3 +44,9 @@ And we are ready to start deploying containers into the Google Cloud from our ma
 #pulls a docker image to use the google cloud sdk
 docker pull google/cloud-sdk:alpine
 ```-->
+
+## Local Installation
+
+TODO Build init container that builds all images locally
+
+Right now you need to build the images on the minikube cluster first and tag them appropriately because they aren't in any repositories.

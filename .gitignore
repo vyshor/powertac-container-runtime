@@ -12,3 +12,4 @@ weather.xml
 
 #ignoring .idea
 *.iml
+log/
