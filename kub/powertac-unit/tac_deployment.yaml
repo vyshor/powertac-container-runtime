@@ -20,12 +20,10 @@ spec:
         - containerPort: 61616
         env: #defining the agents that connect to the server
         - name: AGENTS
-          value: "AgentUDE17,slytherin_v1"
+          value: "slytherin_v1"
         volumeMounts:
           - mountPath: /persistence
             name: nfs-vol
-      - name: powertac-client-ude17
-        image: pascalwhoop/powertac-client-ude17:1.0
       - name: powertac-client-slytherin
         image: pascalwhoop/powertac-client-slytherin_v1:1.0
       volumes:
