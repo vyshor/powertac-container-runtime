@@ -10,7 +10,7 @@ WORKDIR /powertac
 
 #download the server-distribution from github
 RUN mkdir data && \
-	git clone -b release-1.4.3 https://github.com/powertac/server-distribution
+	git clone https://github.com/powertac/server-distribution
 
 #build once, so the downloading of the maven archives doesn't happen every time we instantiate a new docker container
 RUN cd server-distribution && \

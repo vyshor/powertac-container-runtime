@@ -1,7 +1,9 @@
-# powerTAC Dockerized 4 Google Cloud Kubernetes
+# powerTAC Dockerized 4 Google Cloud Kubernetes / Docker Compose
 
 
-This package can run the powerTAC server and a selected number of agents in a Kubernetes Cluster. 
+This package can run the powerTAC server and a selected number of agents in a Kubernetes Cluster. For now, it's still
+not working, but I am also thinking about switching to a simple docker-compose. I might later again transfer to
+kubernetes but for now it's compose. 
 
 
 
@@ -50,3 +52,18 @@ docker pull google/cloud-sdk:alpine
 TODO Build init container that builds all images locally
 
 Right now you need to build the images on the minikube cluster first and tag them appropriately because they aren't in any repositories.
+
+## CRIU freezing of containers
+
+Intall on Debian (Ubuntu)
+[more info here](https://criu.org/Installation)
+```
+sudo apt install --no-install-recommends -y asciidoc xmlto libprotobuf-dev libprotobuf-c0-dev protobuf-c-compiler protobuf-compiler python-protobuf pkg-config build-essential iproute2 libcap-dev libnl-3-dev libnet-dev
+cd /tmp
+wget http://download.openvz.org/criu/criu-3.8.1.tar.bz2
+tar -xvf criu-3.8.1.tar.bz2
+sudo apt autoremove -y criu
+cd criu-3.8.1 
+make
+make install 
+```

@@ -5,5 +5,6 @@ if [ $# -eq 0 ]
   else
     tag=$1
 fi
+IMAGE=pascalwhoop/powertac-maven-proxy
 
-docker build -t pascalwhoop/powertac-kubernetes-console:$tag .
+docker build --tag ${IMAGE}:${tag} ./

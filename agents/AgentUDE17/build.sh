@@ -1,4 +1,8 @@
-VERSION=1.0
 IMAGE=pascalwhoop/powertac-client-ude17
-
-docker build --tag ${IMAGE}:${VERSION} ./
+if [ $# -eq 0 ]
+  then
+      tag='latest'
+  else
+    tag=$1
+fi
+docker build --tag ${IMAGE}:${tag} ./

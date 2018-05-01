@@ -1,12 +1,10 @@
 apiVersion: apps/v1
 kind: Service
-# exposes the gRPC endpoint of our modified Java client to the cluster / world
+# exposes our GRPC server running on localhost to the kubernetes pod
 metadata:
-  name: powertac-unit
+  name: powertac-agent
 spec:
-  selector:
-    app: powertac-unit
   ports:
   - protocol: TCP
-    port: 3001
-    targetPort: 3001
+    port: 50051
+    targetPort: 50051

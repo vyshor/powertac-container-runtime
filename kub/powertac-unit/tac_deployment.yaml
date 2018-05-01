@@ -14,18 +14,20 @@ spec:
     spec:
       containers:
       - name: powertac-server
-        image: pascalwhoop/powertac-server:1.4.3
+        image: pascalwhoop/powertac-server:latest
         ports:
         - containerPort: 8080
         - containerPort: 61616
         env: #defining the agents that connect to the server
         - name: AGENTS
-          value: "slytherin_v1"
+          value: "AgentUDE17,slytherin_v1"
         volumeMounts:
           - mountPath: /persistence
             name: nfs-vol
-      - name: powertac-client-slytherin
-        image: pascalwhoop/powertac-client-slytherin_v1:1.0
+      - name: powertac-grpc-adapter
+        image: pascalwhoop/powertac-grpc-adapter:latest
+      - name: powertac-client-ude17
+        image: pascalwhoop/powertac-client-ude17:latest
       volumes:
         - name: nfs-vol
           persistentVolumeClaim:
