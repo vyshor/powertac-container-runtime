@@ -4,6 +4,9 @@
 *.dat
 
 server/target
+weather/*.txt
+server/bootstrap-data.xml
+kub/nfs/nfs-pv.png
 
 # Jupyter Notebook
 .ipynb_checkpoints
