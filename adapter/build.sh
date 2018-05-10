@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
-VERSION=1.0
 IMAGE=pascalwhoop/powertac-grpc-adapter
+if [ $# -eq 0 ]
+  then
+      tag='latest'
+  else
+    tag=$1
+fi
 
-docker build --tag ${IMAGE}:${VERSION} ./
+docker build --tag ${IMAGE}:${tag} ./

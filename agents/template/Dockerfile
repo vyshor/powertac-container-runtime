@@ -1,9 +1,8 @@
 FROM openjdk:alpine
+ARG clientname
+ARG clientfile
 LABEL maintainer=pascalwhoop
-LABEL name=powertac-client-ude17
-
-#adding all the needed dependencies, as alpine is a bloody lightweight
-RUN apk add --no-cache wget unzip
+LABEL name=powertac-client-$clientname
 
 #docker usually acts mostly on the root filepath, as it's common for only one process to run inside of a container.
 WORKDIR /powertac
@@ -13,11 +12,12 @@ WORKDIR /powertac
 #	unzip AgentUDE17.zip && \
 #	rm AgentUDE17.zip
 
-COPY agent.zip ./
-RUN unzip agent.zip && rm agent.zip
-
+COPY $clientfile agent.jar
 #copy config and start the client
-WORKDIR /powertac/AgentUDE17
 COPY broker.properties ./
 COPY init.sh ./
+
+#making a log folder that holds a subfolder with the name of the container content
+RUN mkdir -p /log/$clientname && ln -s /log/$clientname /powertac/log
+
 CMD ./init.sh

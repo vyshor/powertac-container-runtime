@@ -1,6 +1,6 @@
 FROM openjdk:alpine
 LABEL maintainer=pascalwhoop
-LABEL name=powertac-client-slytherin_v1
+LABEL name=powertac-grpc-adapter
 ###########################################
 
 #adding all the needed dependencies, as alpine is a bloody lightweight
@@ -15,20 +15,20 @@ RUN wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://raw.githubusercontent.com/
 WORKDIR /powertac
 
 #download the client
-RUN mkdir -p broker-adapter && \
-    git clone https://github.com/pascalwhoop/sample-broker broker-adapter
+RUN mkdir -p powertac-grpc-adapter && \
+    git clone https://github.com/pascalwhoop/sample-broker powertac-grpc-adapter
 
 #copy config and start the client
-WORKDIR /powertac/broker-adapter
+WORKDIR /powertac/powertac-grpc-adapter
 RUN apk add --no-cache bash
 
 RUN mkdir -p /.m2
 COPY settings.xml /root/.m2/
 
-#hack for getting new code every time
-RUN git pull 
-
-
 COPY broker.properties ./
 COPY init.sh ./
+
+#making a log folder that holds a subfolder with the name of the container content
+RUN mkdir -p /log/powertac-grpc-adapter && ln -s /log/powertac-grpc-adapter /powertac/powertac-grpc-adapter/log
+
 CMD ./init.sh

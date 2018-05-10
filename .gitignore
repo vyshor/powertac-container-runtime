@@ -1,6 +1,9 @@
 *.jar
 *.zip
 *.swp
+*.dat
+
+server/target
 
 # Jupyter Notebook
 .ipynb_checkpoints

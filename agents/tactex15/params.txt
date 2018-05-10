@@ -1,0 +1,15 @@
+coopmaxbrkrs 4
+useopppred false
+usestairbidexplore true
+usesolar false   
+pubint 120
+usefees false 
+curvessample 3
+useinit13 true
+bidstrategy dp13 
+initpubperiod 96
+numstairs 24 
+bidmgn 0
+usecostcurves true
+useicpt false
+useinitialtariffs false

@@ -81,7 +81,6 @@ server {
   proxy_redirect / /;
   proxy_pass_request_headers off;
   proxy_pass_request_body off;
-  proxy_no_cache $skip_cache;
 
   gzip on;
   gzip_proxied any;

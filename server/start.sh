@@ -1,6 +1,5 @@
-#!/bin/sh
 #java -jar target/server-war-1.5.1-SNAPSHOT-spring-boot.jar -server -Xmx1024m
-java -server -Xmx1024m -jar server.jar \
+java -server -Xmx1024m -jar server-war.jar \
      --sim \
      --config server.properties \
      --brokers "AgentUDE17,slytherin_v1" \

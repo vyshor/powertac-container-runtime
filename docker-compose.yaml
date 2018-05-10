@@ -1,0 +1,68 @@
+version: '3'
+volumes:
+    mvncache:
+#    - powertac:./log
+services:
+    maven-cache:
+        build: ./maven-cache
+        ports:
+            - "80:80"
+        network_mode: "host"
+        volumes:
+            - mvncache:/cache
+
+    server:
+        build: ./server
+        depends_on:
+            - "maven-cache"
+        ports:
+            - "8080:8080"
+            - "61616:61616"
+        network_mode: "host"
+        volumes:
+            - ./log:/log
+    agentcwi:
+        build:
+            context: agents/cwi15
+            dockerfile: ../template/Dockerfile
+            args:
+                clientname: cwi
+                clientfile: cwiBroker2015.jar
+        depends_on:
+            - "server"
+        network_mode: "host"
+        volumes:
+            - ./log:/log
+    agentcrocodile:
+        build:
+            context: agents/crocodile16
+            dockerfile: ../template/Dockerfile
+            args:
+                clientname: crocodile
+                clientfile: CrocodileAgent.jar
+        depends_on:
+            - "server"
+        network_mode: "host"
+        volumes:
+            - ./log:/log
+    agentude:
+        build:
+            context: agents/AgentUDE17
+            dockerfile: ../template/Dockerfile
+            args:
+                clientname: agentude
+                clientfile: AgentUDE17.jar
+        depends_on:
+        depends_on:
+            - "server"
+        network_mode: "host"
+        volumes:
+            - ./log:/log
+
+#    adapter:
+#        build: ./adapter
+#        depends_on:
+#            - "server"
+#        network_mode: "host"
+#        volumes:
+#            - ./log:/log
