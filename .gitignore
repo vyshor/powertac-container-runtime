@@ -1,3 +1,21 @@
 *.jar
 *.zip
 *.swp
+*.dat
+
+server/target
+weather/*.txt
+server/bootstrap-data.xml
+kub/nfs/nfs-pv.png
+
+# Jupyter Notebook
+.ipynb_checkpoints
+.idea/
+__pycache__
+
+# generated file by weather_py reimplementation
+weather.xml
+
+#ignoring .idea
+*.iml
+log/

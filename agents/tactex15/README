@@ -1,0 +1,52 @@
+This is a README file for the TacTex'15 agent binary package. 
+
+TacTex is an autonomous energy trading agent that works with 
+the Power TAC simulation environment (www.powertac.org).
+
+TacTex's home page:
+http://www.cs.utexas.edu/~TacTex/
+
+
+The TacTex agent was created by
+
+ Daniel Urieli    urieli@cs.utexas.edu
+ and Peter Stone  pstone@cs.utexas.edu
+
+in the Department of Computer Science
+at the University of Texas at Austin:
+http://www.cs.utexas.edu/~TacTex/
+
+
+Copyright 2013-2015 Daniel Urieli, Peter Stone
+All Rights Reserved
+
+
+This package was created as part of our research using TacTex. Please
+refer to TacTex's home page for a list of relevant publications, or
+alternatively to one of our personal websites:
+1. Daniel Urieli's website -- http://www.cs.utexas.edu/~urieli/ (See "Publications" section)
+
+2. Peter Stone's website -- http://www.cs.utexas.edu/~pstone/Papers/bib2html/sort_author.html#Urieli
+
+If you are using this binary for research, we kindly request you to
+let us know your experiences, and give attribution to us
+in any research that make use of it. Please cite our TacTex's-related
+papers if you publish work that builds off of this framework. An
+updated bib entry for citation will be available on any of the websites
+mentioned above - if not, please contact us to the above email addresses 
+and we will provide you with one. 
+
+Disclaimer: 
+TacTex's agent binary is released "as is" with no support promised.
+Forthcoming documentation will be placed in TacTex's home page.
+
+
+To Run:
+Make sure the file 'params.txt' is in the same directory as the jar file
+TacTex15.jar and then execute the following command:
+
+java -jar TacTex15.jar [options]
+
+Compatability note: TacTex15 is compatible with the 2015 Power TAC
+server (versions 1.2.2, 1.2.3), and is not guaranteed to work with other
+versions.

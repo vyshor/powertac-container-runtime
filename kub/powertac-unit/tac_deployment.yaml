@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: powertac-unit
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: powertac-unit
+  template: # create pods using pod definition in this template
+    metadata:
+      labels:
+        app: powertac-unit
+    spec:
+      containers:
+      - name: powertac-server
+        image: pascalwhoop/powertac-server:latest
+        ports:
+        - containerPort: 8080
+        - containerPort: 61616
+        env: #defining the agents that connect to the server
+        - name: AGENTS
+          value: "AgentUDE17,slytherin_v1"
+        volumeMounts:
+          - mountPath: /persistence
+            name: nfs-vol
+      - name: powertac-grpc-adapter
+        image: pascalwhoop/powertac-grpc-adapter:latest
+      - name: powertac-client-ude17
+        image: pascalwhoop/powertac-client-ude17:latest
+      volumes:
+        - name: nfs-vol
+          persistentVolumeClaim:
+            claimName: nfs

@@ -1,0 +1,120 @@
+version: '3'
+volumes:
+    mvncache:
+#    - powertac:./log
+services:
+    # if the containers don't just run a jar but a maven build straight from source, this helps cache 
+    # a lot of the requests that usually go to sonartype.org
+    maven-cache:
+        build: ./maven-cache
+        ports:
+            - "80:80"
+        network_mode: "host"
+        volumes:
+            - mvncache:/cache
+
+    #the main server of powertac. agents are passed in as ENV variables
+    server:
+        build: ./server
+        environment: 
+            BROKERS: "AgentUDE17,cwiBroker,maxon16,SPOT,TacTex15,slytherin_v1"
+            #BROKERS: "AgentUDE17,Crocodile,cwiBroker,maxon16,SPOT,TacTex15"
+        depends_on:
+            - "maven-cache"
+        ports:
+            - "8080:8080"
+            - "61616:61616"
+        network_mode: "host"
+        volumes:
+            - ./log:/log
+    agentude:
+        build:
+            context: agents/AgentUDE17
+            dockerfile: ../template/Dockerfile
+            args:
+                clientname: agentude
+                clientfile: AgentUDE17.jar
+        environment:
+            clientname: agentude
+        depends_on:
+            - "server"
+        network_mode: "host"
+        volumes:
+            - ./log:/log
+    agentcwi:
+        build:
+            context: agents/cwi15
+            dockerfile: ../template/Dockerfile
+            args:
+                clientname: cwi
+                clientfile: cwiBroker2015.jar
+        environment:
+            clientname: cwi
+        depends_on:
+            - "server"
+        network_mode: "host"
+        volumes:
+            - ./log:/log
+    maxon:
+        build:
+            context: agents/maxon16
+            dockerfile: ../template/Dockerfile
+            args:
+                clientname: maxon
+                clientfile: maxon16.jar
+        environment:
+            clientname: maxon
+        depends_on:
+            - "server"
+        network_mode: "host"
+        volumes:
+            - ./log:/log
+    spot:
+        build:
+            context: agents/spot17
+            dockerfile: ../template/Dockerfile
+            args:
+                clientname: spot
+                clientfile: SPOT17.jar
+        environment:
+            clientname: spot
+        depends_on:
+            - "server"
+        network_mode: "host"
+        volumes:
+            - ./log:/log
+    tactex:
+        build:
+            context: agents/tactex15
+            dockerfile: ../template/Dockerfile
+            args:
+                clientname: tactex
+                clientfile: TacTex15.jar
+        environment:
+            clientname: tactex
+        depends_on:
+            - "server"
+        network_mode: "host"
+        volumes:
+            - ./log:/log
+              #crocodile relies on R... skipping
+              #    agentcrocodile:
+              #        build:
+              #            context: agents/crocodile16
+              #            dockerfile: ../template/Dockerfile
+              #            args:
+              #                clientname: crocodile
+              #                clientfile: CrocodileAgent.jar
+              #        depends_on:
+              #            - "server"
+              #        network_mode: "host"
+              #        volumes:
+              #            - ./log:/log
+
+    adapter:
+        image: pascalwhoop/powertac-grpc-adapter:latest
+        depends_on:
+            - "server"
+        network_mode: "host"
+        volumes:
+            - ./log:/log

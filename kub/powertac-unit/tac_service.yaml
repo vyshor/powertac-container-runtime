@@ -1,0 +1,10 @@
+apiVersion: apps/v1
+kind: Service
+# exposes our GRPC server running on localhost to the kubernetes pod
+metadata:
+  name: powertac-agent
+spec:
+  ports:
+  - protocol: TCP
+    port: 50051
+    targetPort: 50051

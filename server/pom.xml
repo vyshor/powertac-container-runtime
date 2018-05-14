@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>server-jar</artifactId>
+  <packaging>jar</packaging>
+
+  <name>Power TAC jar packacked</name>
+  <description>Support for download and execution of the Power TAC server in a jar package</description>
+
+  <parent>
+    <groupId>org.powertac</groupId>
+    <artifactId>powertac-server</artifactId>
+    <version>1.5.1-SNAPSHOT</version>
+    <relativePath/>
+  </parent>
+
+  <properties>
+    <powertac-server.version>1.5.1-SNAPSHOT</powertac-server.version>
+    <jetty.version>9.3.11.v20160721</jetty.version>
+    <syst.args></syst.args>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.powertac</groupId>
+      <artifactId>server-main</artifactId>
+      <version>${powertac-server.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.powertac</groupId>
+      <artifactId>common</artifactId>
+      <version>${powertac-server.version}</version>
+    </dependency>
+
+ </dependencies>
+<build>
+  <plugins>
+    <plugin>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-maven-plugin</artifactId>
+      <executions>
+        <execution>
+          <goals>
+            <goal>repackage</goal>
+          </goals>
+          <configuration>
+            <mainClass>org.powertac.server.PowerTacServer</mainClass>
+          </configuration>
+        </execution>
+      </executions>
+    </plugin>
+  </plugins>
+</build>
+
+</project>
