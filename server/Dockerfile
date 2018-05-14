@@ -13,8 +13,6 @@ COPY server.properties ./
 #assumes a built server jar is in the target folder of this project
 COPY target/server-jar-1.5.1-SNAPSHOT.jar server.jar
 
-#making a log folder that holds a subfolder with the name of the container content
-RUN mkdir -p /log/ && ln -s /log/ /powertac/log
 
 EXPOSE 8080 61616
 #and start it up

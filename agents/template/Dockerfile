@@ -17,7 +17,5 @@ COPY $clientfile agent.jar
 COPY broker.properties ./
 COPY init.sh ./
 
-#making a log folder that holds a subfolder with the name of the container content
-RUN mkdir -p /log/$clientname && ln -s /log/$clientname /powertac/log
 
 CMD ./init.sh
