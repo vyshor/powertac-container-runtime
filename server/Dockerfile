@@ -1,5 +1,5 @@
 FROM openjdk:alpine
-LABEL maintainer=pascalwhoop
+LABEL maintainer=vyshor
 LABEL name=powertac-server
 
 
@@ -11,7 +11,7 @@ COPY bootstrap-data.xml ./
 COPY init.sh ./
 COPY server.properties ./
 #assumes a built server jar is in the target folder of this project
-COPY target/server-jar-1.5.1-SNAPSHOT.jar server.jar
+COPY target/server-jar-1.8.0-SNAPSHOT.jar server.jar
 
 
 EXPOSE 8080 61616

@@ -8,4 +8,4 @@ if [ $# -eq 0 ]
     tag=$1
 fi
 
-docker build --tag pascalwhoop/powertac-server:$tag ./
+docker build --tag vyshor/powertac-server:$tag ./
